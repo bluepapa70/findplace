@@ -1,0 +1,23 @@
+{
+  "name": "findplace",
+  "version": "1.0.0",
+  "description": "현재 위치 기반 맛집 추천 웹서비스",
+  "main": "server.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "pages:dev": "wrangler pages dev . --compatibility-date=2025-01-01",
+    "pages:deploy": "npm run build && wrangler pages deploy ."
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

@@ -1,0 +1,264 @@
+/* 지도 영역, 사이드바, 맛집 목록 카드 스타일 */
+
+/* ── 지도 래퍼 ── */
+.map-wrapper {
+  flex: 1;
+  position: relative;
+  background: #dde2e8;
+  overflow: hidden;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── 로딩 오버레이 ── */
+.map-loading {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.93);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 50;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* ── 현재 위치 버튼 ── */
+.btn-locate {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1rem;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-secondary);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.btn-locate:hover {
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.07);
+}
+
+/* ── 카카오맵 InfoWindow 커스텀 스타일 ── */
+.custom-iw {
+  padding: 8px 12px;
+  background: white;
+  border-radius: var(--radius-sm);
+  font-family: -apple-system, 'Noto Sans KR', sans-serif;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+.custom-iw__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.custom-iw__category {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.custom-iw__distance {
+  font-size: 0.73rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ── 사이드바 ── */
+.sidebar {
+  width: 360px;
+  flex-shrink: 0;
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.sidebar__top {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+.sidebar__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.sidebar__count {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  display: block;
+}
+
+/* ── 뭐먹지 버튼 ── */
+.btn-recommend {
+  flex-shrink: 0;
+  padding: 0.55rem 0.9rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.btn-recommend:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 107, 53, 0.45);
+}
+
+.btn-recommend:active {
+  transform: translateY(0);
+}
+
+/* ── 맛집 리스트 ── */
+.restaurant-list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0.25rem 0;
+}
+
+.restaurant-list::-webkit-scrollbar {
+  width: 4px;
+}
+.restaurant-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+
+.list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 200px;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ── 맛집 카드 ── */
+.restaurant-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+}
+
+.restaurant-card:last-child {
+  border-bottom: none;
+}
+
+.restaurant-card:hover {
+  background: #FFF8F5;
+}
+
+.restaurant-card.active {
+  background: #FFF2ED;
+  border-left-color: var(--color-primary);
+}
+
+.restaurant-card__index {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.restaurant-card.active .restaurant-card__index {
+  background: var(--color-primary);
+  color: white;
+}
+
+.restaurant-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.restaurant-card__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.restaurant-card__category {
+  font-size: 0.775rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.restaurant-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 767px) {
+  .map-wrapper {
+    height: 52vh;
+    flex: none;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: calc(48vh - var(--header-h));
+  }
+
+  .sidebar__top {
+    padding: 0.75rem 1rem;
+  }
+}

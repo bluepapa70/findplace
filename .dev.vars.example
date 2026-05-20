@@ -1,0 +1,6 @@
+# Wrangler 로컬 개발용 시크릿 파일 (.dev.vars)
+# wrangler pages dev 실행 시 이 파일의 값이 env로 주입됩니다.
+# 이 파일은 .gitignore에 포함되어 원격 저장소에 올라가지 않습니다.
+
+KAKAO_REST_KEY=your_kakao_rest_api_key_here
+KAKAO_MAP_KEY=your_kakao_javascript_key_here

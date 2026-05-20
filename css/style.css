@@ -1,0 +1,136 @@
+/* 전역 스타일, CSS 변수, 공통 컴포넌트 */
+
+:root {
+  --color-primary:      #FF6B35;
+  --color-primary-dark: #E55A22;
+  --color-secondary:    #2C3E50;
+  --color-accent:       #F7DC6F;
+  --color-bg:           #F0F2F5;
+  --color-white:        #FFFFFF;
+  --color-text:         #1A1A1A;
+  --color-text-muted:   #6B7280;
+  --color-border:       #E5E7EB;
+  --color-star:         #F59E0B;
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.15);
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --header-h:   60px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── 헤더 ── */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--header-h);
+  background: var(--color-secondary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.header__logo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.header__tagline {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* ── 메인 레이아웃 ── */
+.main {
+  display: flex;
+  height: calc(100vh - var(--header-h));
+  margin-top: var(--header-h);
+}
+
+/* ── 공통 스피너 ── */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── 에러 메시지 ── */
+.error-msg {
+  color: var(--color-primary-dark);
+  text-align: center;
+  padding: 1rem 1.5rem;
+  line-height: 1.9;
+  font-size: 0.9rem;
+}
+
+.error-msg strong {
+  font-family: monospace;
+  background: #FFF0EB;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+/* ── 배지 ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge--distance {
+  background: #EFF6FF;
+  color: #2563EB;
+}
+
+.badge--phone {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 767px) {
+  .header__tagline {
+    display: none;
+  }
+
+  .main {
+    flex-direction: column;
+  }
+}

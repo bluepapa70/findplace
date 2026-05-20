@@ -1,0 +1,11 @@
+# Cloudflare Pages 프로젝트 설정
+# Wrangler CLI 사용 시 참고: https://developers.cloudflare.com/pages/
+
+name = "findplace"
+pages_build_output_dir = "."
+compatibility_date = "2025-01-01"
+
+# 환경변수는 CF Pages 대시보드에서 설정합니다 (코드에 키를 넣지 마세요).
+# Settings → Environment variables:
+#   - KAKAO_MAP_KEY  (빌드 타임, Plain Text)  → 카카오 JavaScript 키
+#   - KAKAO_REST_KEY (런타임,   Secret)        → 카카오 REST API 키
