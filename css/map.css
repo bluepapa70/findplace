@@ -29,36 +29,6 @@
   color: var(--color-text-muted);
 }
 
-/* ── 랜덤 뽑기 버튼 ── */
-.btn-random-pick {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 21;
-  padding: 0.6rem 1.4rem;
-  border: none;
-  border-radius: 24px;
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.btn-random-pick:hover {
-  background: var(--color-primary-dark);
-  box-shadow: var(--shadow-lg);
-}
-
-.btn-random-pick:active {
-  transform: translateX(-50%) scale(0.96);
-}
-
 /* ── 현재 위치 FAB ── */
 .fab-locate {
   position: absolute;

@@ -53,18 +53,6 @@ window.AppInit = (function () {
       });
     });
 
-    // 랜덤 뽑기 버튼
-    document.getElementById('btn-random').addEventListener('click', function () {
-      if (_restaurants.length === 0) {
-        _toast('맛집 정보를 먼저 불러와주세요.');
-        return;
-      }
-      var idx = Math.floor(Math.random() * _restaurants.length);
-      _highlightCard(idx);
-      MapManager.openInfoWindowAt(idx);
-      _toast('🎲 ' + _restaurants[idx].name);
-    });
-
     // 뭐먹지? 버튼
     document.getElementById('btn-recommend').addEventListener('click', function () {
       if (_restaurants.length === 0) {
