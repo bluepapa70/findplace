@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AhnLab Copilot Configuration Kit — Agent Instructions</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-code: #1e2530;
+      --bg-table-head: #1c2128;
+      --bg-table-alt: #131920;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent-warn: #d29922;
+      --accent-danger: #f85149;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-heading: #f0f6fc;
+      --badge-blue: #1f6feb;
+      --badge-green: #238636;
+      --badge-orange: #9e6a03;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── 헤더 ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--badge-blue), #58a6ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .header-title h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.3;
+    }
+
+    .header-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid;
+    }
+    .badge-blue  { background: #1f6feb22; border-color: #1f6feb88; color: #79c0ff; }
+    .badge-green { background: #23863622; border-color: #23863688; color: #56d364; }
+    .badge-orange{ background: #9e6a0322; border-color: #9e6a0388; color: #e3b341; }
+
+    /* ── 레이아웃 ──────────────────────────────────── */
+    .layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      gap: 32px;
+    }
+
+    /* ── 사이드바 ──────────────────────────────────── */
+    nav {
+      width: 220px;
+      flex-shrink: 0;
+      padding: 28px 0;
+      position: sticky;
+      top: 105px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    nav h2 {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      padding: 0 8px;
+    }
+
+    nav ul { list-style: none; }
+
+    nav ul li a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+    }
+
+    nav ul li a:hover {
+      color: var(--text);
+      background: var(--bg-card);
+      border-left-color: var(--accent);
+    }
+
+    nav ul li.active a {
+      color: var(--accent);
+      background: #58a6ff11;
+      border-left-color: var(--accent);
+    }
+
+    /* ── 메인 콘텐츠 ───────────────────────────────── */
+    main {
+      flex: 1;
+      min-width: 0;
+      padding: 32px 0 80px;
+    }
+
+    /* ── 섹션 카드 ─────────────────────────────────── */
+    section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    section h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section h2 .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    section h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin: 20px 0 10px;
+    }
+
+    section p { margin-bottom: 12px; color: var(--text); }
+
+    /* ── 통계 카드 ─────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-card .num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ── 컴포넌트 목록 ─────────────────────────────── */
+    ul.comp-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+    ul.comp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--bg-code);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    ul.comp-list li .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    ul.comp-list li strong { color: var(--accent); }
+
+    /* ── 테이블 ────────────────────────────────────── */
+    .tbl-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    thead tr { background: var(--bg-table-head); }
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody tr:nth-child(even) { background: var(--bg-table-alt); }
+    tbody tr:hover { background: #1c2740; }
+
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #21262d;
+      vertical-align: top;
+    }
+
+    /* ── 코드 블록 ─────────────────────────────────── */
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 13px;
+      color: #e6edf3;
+    }
+
+    p code, li code, td code {
+      background: #30363d55;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #79c0ff;
+      font-size: 12.5px;
+    }
+
+    /* ── 단계 목록 ─────────────────────────────────── */
+    ol.steps { list-style: none; counter-reset: steps; display: flex; flex-direction: column; gap: 10px; }
+
+    ol.steps li {
+      counter-increment: steps;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 16px;
+      background: var(--bg-code);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    ol.steps li::before {
+      content: counter(steps);
+      min-width: 26px;
+      height: 26px;
+      background: var(--badge-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* ── 체크리스트 ────────────────────────────────── */
+    ul.checklist { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+    ul.checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13.5px;
+    }
+
+    ul.checklist li:hover { background: var(--bg-code); }
+
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ── 경고/팁 박스 ──────────────────────────────── */
+    .callout {
+      display: flex;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border-left: 4px solid;
+      margin: 14px 0;
+      font-size: 13.5px;
+    }
+
+    .callout-warn  { background: #9e6a0318; border-color: var(--accent-warn); }
+    .callout-info  { background: #58a6ff12; border-color: var(--accent); }
+    .callout-danger{ background: #f8514918; border-color: var(--accent-danger); }
+    .callout-green { background: #3fb95018; border-color: var(--accent2); }
+
+    .callout .c-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── 고위험 테이블 ─────────────────────────────── */
+    .risk-high td:nth-child(2) { color: var(--accent-danger); font-size: 13px; }
+    .risk-high td:first-child code { color: #ffa657; }
+
+    /* ── 워크플로우 화살표 ─────────────────────────── */
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 16px;
+      background: var(--bg-code);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .flow-step {
+      background: #1f6feb33;
+      border: 1px solid #1f6feb55;
+      padding: 5px 12px;
+      border-radius: 6px;
+      color: #79c0ff;
+      white-space: nowrap;
+    }
+
+    .flow-arrow { color: var(--text-muted); font-size: 16px; }
+
+    /* ── 금지/허용 태그 ────────────────────────────── */
+    .tag-no  { color: var(--accent-danger); font-weight: 600; }
+    .tag-yes { color: var(--accent2);       font-weight: 600; }
+
+    /* ── 링크 ──────────────────────────────────────── */
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── 푸터 ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* ── 반응형 ────────────────────────────────────── */
+    @media (max-width: 860px) {
+      nav { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      header { padding: 24px 20px; }
+      section { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── 헤더 ───────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+    <div class="logo">🤖</div>
+    <div class="header-title">
+      <h1>AhnLab Copilot Configuration Kit</h1>
+      <p>Agent Instructions — AI coding agent 운영 지침서</p>
+      <div class="badges">
+        <span class="badge badge-blue">📅 2026-05-20</span>
+        <span class="badge badge-green">✅ v2.0-beta</span>
+        <span class="badge badge-orange">⚡ /init-ahnlab</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── 레이아웃 ─────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- 사이드바 -->
+  <nav>
+    <h2>목차</h2>
+    <ul>
+      <li><a href="#overview">📦 프로젝트 개요</a></li>
+      <li><a href="#structure">🗂 프로젝트 구조</a></li>
+      <li><a href="#build">🔨 빌드 명령어</a></li>
+      <li><a href="#workflow">🔄 개발 워크플로우</a></li>
+      <li><a href="#style">🎨 코드 스타일</a></li>
+      <li><a href="#highrisk">⚠️ 고위험 영역</a></li>
+      <li><a href="#commit">💬 커밋 스타일</a></li>
+      <li><a href="#pr">📋 Pull Request</a></li>
+      <li><a href="#docs">📚 문서 참조</a></li>
+    </ul>
+  </nav>
+
+  <!-- 메인 -->
+  <main>
+
+    <!-- 통계 카드 -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="num">20</div>
+        <div class="label">🤖 에이전트</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">12</div>
+        <div class="label">📐 인스트럭션</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">10</div>
+        <div class="label">🛠 Skills</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">9</div>
+        <div class="label">🔌 Plugins</div>
+      </div>
+    </div>
+
+    <!-- 프로젝트 개요 -->
+    <section id="overview">
+      <h2><span class="icon" style="background:#1f6feb22">📦</span>프로젝트 개요</h2>
+      <p>
+        <strong>AhnLab Copilot Configuration Kit</strong>은 GitHub Copilot 2세대 체계
+        (Instructions + Agents + Skills + Plugins)를 신규/기존 프로젝트에 자동으로 배포하기 위한
+        설정 배포 패키지입니다.
+      </p>
+      <p>이 프로젝트는 다음 구성요소를 포함합니다.</p>
+      <ul class="comp-list">
+        <li><span class="dot" style="background:#58a6ff"></span><div><strong><code>/init-ahnlab</code> 커맨드</strong> — Copilot Chat 슬래시 커맨드로 전체 설정 자동 배포</div></li>
+        <li><span class="dot" style="background:#3fb950"></span><div><strong>에이전트 소스 (20개)</strong> — <code>templates/awesome-copilot-main/agents/</code>에 위치한 마스터 에이전트 파일</div></li>
+        <li><span class="dot" style="background:#d29922"></span><div><strong>인스트럭션 소스 (12개)</strong> — <code>templates/awesome-copilot-main/instructions/</code>에 위치한 마스터 규칙 파일</div></li>
+        <li><span class="dot" style="background:#bc8cff"></span><div><strong>Skills (10개) / Plugins (9개)</strong> — 재사용 가능한 스킬 및 플러그인 모음</div></li>
+        <li><span class="dot" style="background:#ff7b72"></span><div><strong>AHNLAB_TEMPLATE_*.md</strong> — 프로젝트 맞춤 CFG 파일 생성용 기반 템플릿</div></li>
+      </ul>
+    </section>
+
+    <!-- 프로젝트 구조 -->
+    <section id="structure">
+      <h2><span class="icon" style="background:#3fb95022">🗂</span>프로젝트 구조</h2>
+      <pre><code>c:\CodeTemp\  (프로젝트 루트)
+├── .github/                        # GitHub/Copilot 설정 (배포 결과물)
+│   ├── agents/                     # 배포된 에이전트 (20개)
+│   ├── instructions/               # 배포된 인스트럭션 (12개)
+│   ├── skills/                     # 배포된 스킬 (10개)
+│   ├── plugins/                    # 배포된 플러그인 (9개)
+│   ├── docs/                       # 자동 생성 문서 (Phase 3.5)
+│   ├── prompts/                    # Copilot Chat 슬래시 커맨드
+│   ├── templates/                  # 원본 템플릿 소스 (수정 금지)
+│   ├── copilot-instructions.md
+│   ├── code-style-guide.md
+│   └── commit-message.style.md
+├── prompts/
+│   └── init-ahnlab.prompt.md       # ← /init-ahnlab 커맨드 정의 파일
+├── templates/
+│   ├── AHNLAB_TEMPLATE_*.md
+│   └── awesome-copilot-main/
+├── AGENTS.md
+└── QUICKSTART.md</code></pre>
+
+      <h3>주요 진입점 (Entry Points)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>파일/경로</th><th>역할</th></tr></thead>
+          <tbody>
+            <tr><td><code>prompts/init-ahnlab.prompt.md</code></td><td><code>/init-ahnlab</code> 슬래시 커맨드 정의 — 전체 배포 프로세스 진입점</td></tr>
+            <tr><td><code>templates/awesome-copilot-main/agents/</code></td><td>에이전트 마스터 소스 — Phase 1 복사 대상</td></tr>
+            <tr><td><code>templates/awesome-copilot-main/instructions/</code></td><td>인스트럭션 마스터 소스 — Phase 2 복사 대상</td></tr>
+            <tr><td><code>templates/AHNLAB_TEMPLATE_copilot-instructions.md</code></td><td>copilot-instructions.md 생성 템플릿</td></tr>
+            <tr><td><code>templates/AHNLAB_TEMPLATE_project-root-agents.md</code></td><td>AGENTS.md 생성 템플릿</td></tr>
+            <tr><td><code>QUICKSTART.md</code></td><td>사용자 빠른 시작 가이드</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 빌드 명령어 -->
+    <section id="build">
+      <h2><span class="icon" style="background:#d2992222">🔨</span>빌드 명령어</h2>
+
+      <h3>필수 환경</h3>
+      <ul class="comp-list">
+        <li><span class="dot" style="background:#58a6ff"></span><div><strong>VS Code</strong> 최신 버전 — Copilot Chat 실행 환경</div></li>
+        <li><span class="dot" style="background:#3fb950"></span><div><strong>GitHub Copilot Chat 확장</strong> — <code>/init-ahnlab</code> 커맨드 실행</div></li>
+        <li><span class="dot" style="background:#8b949e"></span><div>환경변수: 별도 환경변수 불필요</div></li>
+      </ul>
+
+      <h3>배포 실행 (빌드에 해당)</h3>
+      <pre><code class="language-powershell"># STEP 1: 사전 조건 확인
+Test-Path ".\templates\awesome-copilot-main\agents"
+Test-Path ".\prompts\init-ahnlab.prompt.md"
+
+# STEP 2: .github/ 구조 설정 (미설정 시)
+Copy-Item -Path ".\templates" -Destination ".\.github\templates" -Recurse -Force
+Copy-Item -Path ".\prompts"   -Destination ".\.github\prompts"   -Recurse -Force</code></pre>
+
+      <div class="callout callout-info">
+        <span class="c-icon">💡</span>
+        <div><strong>STEP 3</strong>: VS Code Copilot Chat에서 <code>/init-ahnlab</code> 입력 후 Enter</div>
+      </div>
+
+      <p style="margin-top:12px">
+        <strong>산출물</strong>: <code>.github/agents/</code> (20개), <code>.github/instructions/</code> (12개),
+        <code>.github/skills/</code> (10개), <code>.github/plugins/</code> (9개), <code>.github/docs/</code> (최대 14개),
+        <code>AGENTS.md</code>, <code>.github/templates/AUDIT_REPORT_*.md</code>
+      </p>
+
+      <h3>재배포 (기존 파일 교체)</h3>
+      <pre><code class="language-powershell"># 배포 결과물 초기화 후 재실행
+Remove-Item ".\.github\agents" -Recurse -Force
+Remove-Item ".\.github\instructions" -Recurse -Force
+# 이후 /init-ahnlab 재실행</code></pre>
+
+      <div class="callout callout-green">
+        <span class="c-icon">✅</span>
+        <div><strong>검증 방법</strong>: Phase 5 감사 완료 후 <code>.github/templates/AUDIT_REPORT_YYYY-MM-DD.md</code>에서 PASS 확인.</div>
+      </div>
+    </section>
+
+    <!-- 개발 워크플로우 -->
+    <section id="workflow">
+      <h2><span class="icon" style="background:#bc8cff22">🔄</span>개발 워크플로우</h2>
+
+      <h3>새로운 기능/수정 작업 절차</h3>
+      <ol class="steps">
+        <li><div><strong>탐색</strong>: <code>templates/awesome-copilot-main/</code> 구조 파악 및 영향 범위 분석</div></li>
+        <li><div><strong>계획</strong>: 원본 수정 최소화 — 프로젝트 특화 내용은 맨 끝 구분자 이후에만 추가</div></li>
+        <li><div><strong>구현</strong>: 단일 책임, 기존 패턴 확인 후 구현 (<code>AHNLAB_TEMPLATE_*.md</code> 패턴 참조)</div></li>
+        <li><div><strong>검증</strong>: <code>/init-ahnlab</code> 재실행 → Phase 5 감사 PASS 확인</div></li>
+        <li><div><strong>커밋</strong>: <code>.github/commit-message.style.md</code> 형식 준수</div></li>
+      </ol>
+
+      <h3 style="margin-top:24px">배포/검증 워크플로우</h3>
+      <div class="flow">
+        <span class="flow-step">템플릿 수정</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">/init-ahnlab 실행</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">.github/ 구조 확인</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Phase 5 감사 PASS</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Git 커밋</span>
+      </div>
+    </section>
+
+    <!-- 코드 스타일 -->
+    <section id="style">
+      <h2><span class="icon" style="background:#58a6ff22">🎨</span>코드 스타일 가이드라인</h2>
+      <p><strong>스타일</strong>: Markdown, <strong>2 스페이스</strong> 들여쓰기 (YAML frontmatter), 섹션당 하나의 역할, 중첩 3레벨 이하.</p>
+
+      <h3>명명 규칙</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>항목</th><th>규칙</th><th>예시</th></tr></thead>
+          <tbody>
+            <tr><td>에이전트 파일</td><td><code>kebab-case.agent.md</code></td><td><code>se-security-reviewer.agent.md</code></td></tr>
+            <tr><td>인스트럭션 파일</td><td><code>kebab-case.instructions.md</code></td><td><code>code-review-generic.instructions.md</code></td></tr>
+            <tr><td>템플릿 파일</td><td><code>AHNLAB_TEMPLATE_kebab-case.md</code></td><td><code>AHNLAB_TEMPLATE_copilot-instructions.md</code></td></tr>
+            <tr><td>스킬 디렉토리</td><td><code>kebab-case/</code></td><td><code>breakdown-plan/</code></td></tr>
+            <tr><td>플레이스홀더</td><td><code>[대괄호]</code></td><td><code>[프로젝트명]</code>, <code>[날짜]</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>금지 행동 및 대체 방법</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>금지 행동</th><th>대체 방법</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="tag-no">✗</span> <code>awesome-copilot-main/</code> 내 파일 직접 수정</td>
+              <td><span class="tag-yes">✓</span> <code>.github/agents/</code>의 배포 파일 맨 끝에 구분자 이후 추가</td>
+            </tr>
+            <tr>
+              <td><span class="tag-no">✗</span> <code>Copy-Item -Force</code>로 기존 파일 덮어쓰기</td>
+              <td><span class="tag-yes">✓</span> <code>if (-not (Test-Path $dest))</code> 조건부 복사</td>
+            </tr>
+            <tr>
+              <td><span class="tag-no">✗</span> 플레이스홀더 미치환 상태로 커밋</td>
+              <td><span class="tag-yes">✓</span> Phase 5 감사 후 PASS 확인 후 커밋</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 고위험 영역 -->
+    <section id="highrisk">
+      <h2><span class="icon" style="background:#f8514922">⚠️</span>고위험 영역 (High-Risk Areas)</h2>
+
+      <div class="callout callout-warn">
+        <span class="c-icon">⚠️</span>
+        <div>아래 영역 작업 시 반드시 주의가 필요합니다.</div>
+      </div>
+
+      <div class="tbl-wrap" style="margin-top:16px">
+        <table>
+          <thead><tr><th>파일/모듈</th><th>위험 요소</th><th>필수 확인 사항</th></tr></thead>
+          <tbody class="risk-high">
+            <tr>
+              <td><code>templates/awesome-copilot-main/</code></td>
+              <td>원본 수정 시 배포 무결성 파괴</td>
+              <td>절대 직접 수정 금지. 배포 파일에만 추가.</td>
+            </tr>
+            <tr>
+              <td><code>prompts/init-ahnlab.prompt.md</code></td>
+              <td>Phase 순서 변경 시 의존성 오류</td>
+              <td>Phase 번호 및 순서 유지</td>
+            </tr>
+            <tr>
+              <td><code>templates/AHNLAB_TEMPLATE_*.md</code></td>
+              <td>플레이스홀더 형식 변경 시 치환 실패</td>
+              <td><code>[대괄호]</code> 형식 유지</td>
+            </tr>
+            <tr>
+              <td><code>.github/copilot-instructions.md</code></td>
+              <td>전역 Copilot 지침 — 잘못된 내용이 모든 응답에 영향</td>
+              <td>내용 정확성 검토 필수</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>절대 하면 안 되는 것</h3>
+      <div class="callout callout-danger">
+        <span class="c-icon">🚫</span>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
+          <li>✗ <code>templates/awesome-copilot-main/</code> 내 파일을 직접 수정하지 않습니다.</li>
+          <li>✗ <code>/init-ahnlab</code> 실행 중 기존 <code>.github/agents/</code> 파일을 <code>-Force</code>로 덮어쓰지 않습니다.</li>
+          <li>✗ 플레이스홀더(<code>[대괄호]</code>)가 남아 있는 상태로 CFG 파일을 커밋하지 않습니다.</li>
+          <li>✗ Phase 5 감사 FAIL 상태로 배포를 완료로 처리하지 않습니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 커밋 스타일 -->
+    <section id="commit">
+      <h2><span class="icon" style="background:#3fb95022">💬</span>커밋 메시지 스타일</h2>
+      <pre><code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;  ← 50자 이내, 한글 또는 영어, 명령형
+
+[변경 동기]    변경이 발생한 이유와 문제를 간결하게 서술한다.
+[해결 방법]    실제 변경 내용을 구체적으로 서술한다.
+[관련 파일]    수정된 주요 파일 목록
+[테스트 결과]  테스트 환경: VS Code + Copilot Chat
+               Test Step) 1.준비 2./init-ahnlab 실행 3.결과 확인 4.감사 PASS</code></pre>
+
+      <div class="tbl-wrap" style="margin-top:16px">
+        <table>
+          <thead><tr><th>Type</th><th>의미</th><th>Scope 예시</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>feat</code> / <code>fix</code> / <code>refactor</code> / <code>security</code> / <code>docs</code> / <code>chore</code></td>
+              <td>기능/버그/리팩/보안/문서/빌드</td>
+              <td><code>agents</code> / <code>instructions</code> / <code>phase3</code> / <code>templates</code> / <code>init</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Pull Request -->
+    <section id="pr">
+      <h2><span class="icon" style="background:#bc8cff22">📋</span>Pull Request 가이드라인</h2>
+
+      <div class="callout callout-info">
+        <span class="c-icon">ℹ️</span>
+        <div><strong>중요</strong>: 모든 Pull Request는 <strong><code>develop</code></strong> 브랜치를 대상으로 합니다.</div>
+      </div>
+
+      <ol class="steps" style="margin-top:16px">
+        <li><div><strong>검증</strong>: <code>/init-ahnlab</code> 실행 후 Phase 5 감사 PASS 확인</div></li>
+        <li><div><strong>스타일 준수</strong>: <code>.github/code-style-guide.md</code> Markdown 규칙 확인</div></li>
+        <li><div><strong>원본 보존</strong>: <code>templates/awesome-copilot-main/</code> 파일 미수정 확인</div></li>
+        <li><div><strong>플레이스홀더</strong>: 모든 <code>[대괄호]</code> 치환 완료 확인</div></li>
+        <li><div><strong>설명</strong>: 변경 내용 및 이유를 명확히 작성</div></li>
+      </ol>
+
+      <h3 style="margin-top:24px">커밋 전 체크리스트</h3>
+      <ul class="checklist">
+        <li><span class="check-icon"></span><code>/init-ahnlab</code> 실행 성공 (오류 없음)</li>
+        <li><span class="check-icon"></span><code>.github/templates/AUDIT_REPORT_YYYY-MM-DD.md</code> PASS 확인</li>
+        <li><span class="check-icon"></span>원본 템플릿 파일 미수정 확인</li>
+        <li><span class="check-icon"></span>플레이스홀더 <code>[대괄호]</code> 미잔류 확인</li>
+        <li><span class="check-icon"></span>커밋 메시지 형식 준수 (<code>.github/commit-message.style.md</code>)</li>
+      </ul>
+    </section>
+
+    <!-- 문서 참조 -->
+    <section id="docs">
+      <h2><span class="icon" style="background:#d2992222">📚</span>프로젝트 문서 참조</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>문서</th><th>설명</th><th>경로</th></tr></thead>
+          <tbody>
+            <tr><td><code>ARCHITECTURE.md</code></td><td>아키텍처 개요</td><td><code>.github/docs/ARCHITECTURE.md</code></td></tr>
+            <tr><td><code>CODING_GUIDELINES.md</code></td><td>통합 코딩 가이드라인</td><td><code>.github/docs/CODING_GUIDELINES.md</code></td></tr>
+            <tr><td><code>CONTRIBUTING.md</code></td><td>기여 가이드</td><td><code>.github/docs/CONTRIBUTING.md</code></td></tr>
+            <tr><td><code>DIRECTORY_STRUCTURE.md</code></td><td>디렉토리 구조 및 역할 설명</td><td><code>.github/docs/DIRECTORY_STRUCTURE.md</code></td></tr>
+            <tr><td><code>PROJECT_OVERVIEW.md</code></td><td>프로젝트 개요</td><td><code>.github/docs/PROJECT_OVERVIEW.md</code></td></tr>
+            <tr><td><code>RELEASE_NOTES_TEMPLATE.md</code></td><td>릴리즈 노트 템플릿</td><td><code>.github/docs/RELEASE_NOTES_TEMPLATE.md</code></td></tr>
+            <tr><td><code>SECURITY_GUIDELINES.md</code></td><td>보안 가이드라인</td><td><code>.github/docs/SECURITY_GUIDELINES.md</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:24px">기여 안내</h3>
+      <ul class="comp-list">
+        <li><span class="dot" style="background:#58a6ff"></span><div><a href=".github/docs/CONTRIBUTING.md">CONTRIBUTING.md</a> — 기여 가이드라인</div></li>
+        <li><span class="dot" style="background:#3fb950"></span><div><a href=".github/docs/CODING_GUIDELINES.md">CODING_GUIDELINES.md</a> — 코딩 표준</div></li>
+        <li><span class="dot" style="background:#f85149"></span><div><a href=".github/docs/SECURITY_GUIDELINES.md">SECURITY_GUIDELINES.md</a> — 보안 정책</div></li>
+        <li><span class="dot" style="background:#d29922"></span><div><a href=".github/commit-message.style.md">.github/commit-message.style.md</a> — 커밋 메시지 형식</div></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p>마지막 업데이트: 2026-05-20 &nbsp;|&nbsp; 버전: 2.0-beta &nbsp;|&nbsp; AhnLab Copilot Configuration Kit</p>
+</footer>
+
+<script>
+  // 스크롤 위치에 따른 사이드바 활성화
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav ul li a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.parentElement.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.parentElement.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
