@@ -17,7 +17,12 @@
   --radius-sm:  8px;
   --radius-md:  12px;
   --radius-lg:  16px;
-  --header-h:   60px;
+  /* 앱 상단 바 높이 */
+  --app-bar-h:  52px;
+  /* 하위 호환성 */
+  --header-h:   52px;
+  /* 시트 접힌 상태에서 노출되는 높이 */
+  --sheet-peek: 88px;
 }
 
 *, *::before, *::after {
@@ -32,43 +37,59 @@ html, body {
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.5;
+  overflow: hidden;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* ── 헤더 ── */
-.header {
+/* ── 앱 상단 바 ── */
+.app-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  height: var(--header-h);
+  height: var(--app-bar-h);
   background: var(--color-secondary);
   color: var(--color-white);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0 1.5rem;
+  justify-content: space-between;
+  padding: 0 1rem;
   box-shadow: var(--shadow-md);
 }
 
-.header__logo {
-  font-size: 1.35rem;
+.app-bar__logo {
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  white-space: nowrap;
 }
 
-.header__tagline {
-  font-size: 0.8rem;
-  opacity: 0.6;
+.app-bar__location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.73rem;
+  opacity: 0.72;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-bar__location svg {
+  flex-shrink: 0;
+  opacity: 0.9;
 }
 
 /* ── 메인 레이아웃 ── */
-.main {
+.layout {
   display: flex;
-  height: calc(100vh - var(--header-h));
-  margin-top: var(--header-h);
+  height: calc(100vh - var(--app-bar-h));
+  margin-top: var(--app-bar-h);
+  position: relative;
+  overflow: hidden;
 }
 
 /* ── 공통 스피너 ── */
@@ -124,13 +145,4 @@ html, body {
   font-weight: 400;
 }
 
-/* ── 모바일 반응형 ── */
-@media (max-width: 767px) {
-  .header__tagline {
-    display: none;
-  }
 
-  .main {
-    flex-direction: column;
-  }
-}

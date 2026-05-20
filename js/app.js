@@ -7,11 +7,20 @@ window.AppInit = (function () {
   // ── 앱 초기화 ──────────────────────────────────────
   function init() {
     _setupEventListeners();
+    _setupSheetToggle();
 
     Location.getCurrent()
       .then(function (pos) {
         MapManager.init(pos.lat, pos.lng);
         _hideMapLoading();
+
+        // 앱 바 위치 텍스트 업데이트
+        var locEl = document.getElementById('app-location');
+        if (locEl) {
+          var icon = locEl.querySelector('svg');
+          var iconHTML = icon ? icon.outerHTML : '';
+          locEl.innerHTML = iconHTML + (pos.isDefault ? '서울 시청 (기본)' : '현재 위치');
+        }
 
         if (pos.isDefault) {
           _toast('위치 권한이 없어 서울 시청 기준으로 표시합니다.');
@@ -44,6 +53,18 @@ window.AppInit = (function () {
       });
     });
 
+    // 랜덤 뽑기 버튼
+    document.getElementById('btn-random').addEventListener('click', function () {
+      if (_restaurants.length === 0) {
+        _toast('맛집 정보를 먼저 불러와주세요.');
+        return;
+      }
+      var idx = Math.floor(Math.random() * _restaurants.length);
+      _highlightCard(idx);
+      MapManager.openInfoWindowAt(idx);
+      _toast('🎲 ' + _restaurants[idx].name);
+    });
+
     // 뭐먹지? 버튼
     document.getElementById('btn-recommend').addEventListener('click', function () {
       if (_restaurants.length === 0) {
@@ -64,6 +85,24 @@ window.AppInit = (function () {
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') _closeModal();
     });
+  }
+
+  // ── 바텀 시트 토글 ────────────────────────────────────
+  function _setupSheetToggle() {
+    var grip = document.getElementById('sheet-toggle');
+    if (!grip) return;
+    grip.addEventListener('click', function () {
+      var sheet = document.getElementById('sheet');
+      if (sheet) sheet.classList.toggle('open');
+    });
+  }
+
+  function _closeSheet() {
+    // 모바일(767px 이하)에서만 닫기
+    if (window.innerWidth < 768) {
+      var sheet = document.getElementById('sheet');
+      if (sheet) sheet.classList.remove('open');
+    }
   }
 
   // ── 사이드패널 맛집 목록 렌더링 ──────────────────────
@@ -100,6 +139,8 @@ window.AppInit = (function () {
         var idx = parseInt(card.dataset.index, 10);
         _highlightCard(idx);
         MapManager.openInfoWindowAt(idx);
+        // 모바일에서 커드 클릭 시 시트 닫기
+        _closeSheet();
       });
     });
   }
@@ -166,9 +207,10 @@ window.AppInit = (function () {
     var el = document.createElement('div');
     el.textContent = msg;
     el.style.cssText = [
-      'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);',
+      'position:fixed;z-index:300;pointer-events:none;',
+      'bottom:calc(var(--sheet-peek, 88px) + 1rem);left:50%;transform:translateX(-50%);',
       'background:rgba(44,62,80,0.92);color:#fff;padding:0.55rem 1.2rem;',
-      'border-radius:20px;font-size:0.83rem;z-index:300;pointer-events:none;',
+      'border-radius:20px;font-size:0.83rem;',
       'white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);'
     ].join('');
     document.body.appendChild(el);

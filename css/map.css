@@ -1,11 +1,12 @@
-/* 지도 영역, 사이드바, 맛집 목록 카드 스타일 */
+﻿/* 지도 영역, 바텀 시트(모바일)/사이드바(데스크탑), 맛집 목록 카드 스타일 */
 
-/* ── 지도 래퍼 ── */
-.map-wrapper {
-  flex: 1;
-  position: relative;
-  background: #dde2e8;
-  overflow: hidden;
+/* ═════════════════════════════════════════════════════
+   지도 영역 (모바일: absolute fill)
+═════════════════════════════════════════════════════ */
+
+.map-area {
+  position: absolute;
+  inset: 0;
 }
 
 #map {
@@ -28,14 +29,44 @@
   color: var(--color-text-muted);
 }
 
-/* ── 현재 위치 버튼 ── */
-.btn-locate {
+/* ── 랜덤 뽑기 버튼 ── */
+.btn-random-pick {
   position: absolute;
-  bottom: 1.5rem;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 21;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 24px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-random-pick:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-random-pick:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+/* ── 현재 위치 FAB ── */
+.fab-locate {
+  position: absolute;
+  bottom: calc(var(--sheet-peek) + 1rem);
   right: 1rem;
-  z-index: 10;
-  width: 42px;
-  height: 42px;
+  z-index: 21;
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 50%;
   background: var(--color-white);
@@ -46,14 +77,15 @@
   align-items: center;
   justify-content: center;
   transition: box-shadow 0.2s, transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-locate:hover {
+.fab-locate:hover {
   box-shadow: var(--shadow-lg);
   transform: scale(1.07);
 }
 
-/* ── 카카오맵 InfoWindow 커스텀 스타일 ── */
+/* ── 카카오맵 InfoWindow 스타일 ── */
 .custom-iw {
   padding: 8px 12px;
   background: white;
@@ -82,44 +114,87 @@
   margin-top: 4px;
 }
 
-/* ── 사이드바 ── */
-.sidebar {
-  width: 360px;
-  flex-shrink: 0;
+/* ═════════════════════════════════════════════════════
+   바텀 시트 (모바일 기본)
+═════════════════════════════════════════════════════ */
+
+.sheet {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 65vh;
+  min-height: 320px;
   background: var(--color-white);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
+  /* 접힌 상태: peek 높이만 노움 */
+  transform: translateY(calc(100% - var(--sheet-peek)));
+  transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
 }
 
-.sidebar__top {
-  padding: 0.875rem 1.25rem;
-  border-bottom: 1px solid var(--color-border);
+.sheet.open {
+  transform: translateY(0);
+}
+
+/* ── 드래그 핸들 영역 ── */
+.sheet__grip-row {
+  flex-shrink: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sheet__grip {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border);
+  transition: background 0.15s;
+}
+
+.sheet__grip-row:hover .sheet__grip,
+.sheet__grip-row:active .sheet__grip {
+  background: #9CA3AF;
+}
+
+/* ── 시트 헤더 (항상 보임) ── */
+.sheet__peek {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  gap: 0.5rem;
+  padding: 0 1.25rem 1rem;
+  gap: 0.75rem;
 }
 
-.sidebar__title {
+.sheet__info {
+  min-width: 0;
+}
+
+.sheet__title {
   font-size: 1rem;
   font-weight: 700;
   color: var(--color-secondary);
+  line-height: 1.2;
 }
 
-.sidebar__count {
+.sheet__count {
   font-size: 0.75rem;
   color: var(--color-text-muted);
-  margin-top: 2px;
   display: block;
+  margin-top: 2px;
 }
 
-/* ── 뭐먹지 버튼 ── */
+/* ── 버튼: 뭐먹지? ── */
 .btn-recommend {
   flex-shrink: 0;
-  padding: 0.55rem 0.9rem;
+  padding: 0.6rem 1rem;
   border: none;
   border-radius: var(--radius-md);
   background: var(--color-primary);
@@ -130,6 +205,7 @@
   box-shadow: 0 2px 8px rgba(255, 107, 53, 0.35);
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-recommend:hover {
@@ -147,12 +223,15 @@
   flex: 1;
   overflow-y: auto;
   list-style: none;
-  padding: 0.25rem 0;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .restaurant-list::-webkit-scrollbar {
   width: 4px;
 }
+
 .restaurant-list::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 2px;
@@ -164,7 +243,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  height: 200px;
+  height: 160px;
   color: var(--color-text-muted);
   font-size: 0.875rem;
 }
@@ -179,13 +258,15 @@
   cursor: pointer;
   transition: background 0.15s;
   border-left: 3px solid transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .restaurant-card:last-child {
   border-bottom: none;
 }
 
-.restaurant-card:hover {
+.restaurant-card:hover,
+.restaurant-card:active {
   background: #FFF8F5;
 }
 
@@ -246,19 +327,48 @@
   flex-wrap: wrap;
 }
 
-/* ── 모바일 반응형 ── */
-@media (max-width: 767px) {
-  .map-wrapper {
-    height: 52vh;
-    flex: none;
+/* ═════════════════════════════════════════════════════
+   데스크탑 레이아웃 (768px 이상)
+═════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  /* 지도: absolute 해제하고 flex 아이템으로 */
+  .map-area {
+    position: relative;
+    flex: 1;
   }
 
-  .sidebar {
-    width: 100%;
-    height: calc(48vh - var(--header-h));
+  /* 바텀 시트 → 우측 사이드바로 전환 */
+  .sheet {
+    position: relative;
+    width: 360px;
+    height: 100%;
+    min-height: unset;
+    border-radius: 0;
+    transform: none !important;
+    transition: none;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
   }
 
-  .sidebar__top {
-    padding: 0.75rem 1rem;
+  /* 데스크탑에서 드래그 핸들 숨김 */
+  .sheet__grip-row {
+    display: none;
+  }
+
+  /* 사이드바 헤더 스타일 */
+  .sheet__peek {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* 데스크탑: 위치 버튼은 지도 우측 하단에 */
+  .fab-locate {
+    bottom: 1.5rem;
+    right: 1rem;
+  }
+
+  .restaurant-list {
+    padding: 0.25rem 0;
   }
 }

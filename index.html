@@ -3,26 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FindPlace 🍽️ - 근처 맛집 찾기</title>
+  <title>희연이의 저녁 메뉴 🍽️ - 근처 맛집 찾기</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/map.css">
   <link rel="stylesheet" href="css/modal.css">
 </head>
 <body>
 
-  <header class="header">
-    <h1 class="header__logo">🍽️ FindPlace</h1>
-    <p class="header__tagline">현재 위치 기반 맛집 추천</p>
+  <!-- 앱 상단 바 -->
+  <header class="app-bar">
+    <h1 class="app-bar__logo">🍽️ 희연이의 저녁 메뉴</h1>
+    <p class="app-bar__location" id="app-location">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+      위치 확인 중...
+    </p>
   </header>
 
-  <main class="main">
-    <div class="map-wrapper">
+  <main class="layout">
+    <!-- 지도 영역 -->
+    <div class="map-area">
       <div id="map"></div>
       <div class="map-loading" id="map-loading">
         <div class="spinner"></div>
         <p>위치를 가져오는 중...</p>
       </div>
-      <button id="btn-locate" class="btn-locate" title="현재 위치로 이동">
+      <button id="btn-random" class="btn-random-pick">🎲 랜덤 뽑기</button>
+      <button id="btn-locate" class="fab-locate" title="현재 위치로 이동">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <circle cx="12" cy="12" r="4"/>
           <line x1="12" y1="2" x2="12" y2="6"/>
@@ -33,21 +39,28 @@
       </button>
     </div>
 
-    <aside class="sidebar">
-      <div class="sidebar__top">
-        <div class="sidebar__info">
-          <h2 class="sidebar__title">근처 맛집</h2>
-          <span class="sidebar__count" id="restaurant-count">불러오는 중...</span>
+    <!-- 바텀 시트 (모바일) / 사이드바 (데스크탑) -->
+    <div class="sheet" id="sheet">
+      <!-- 모바일 드래그 핸들 영역 -->
+      <div class="sheet__grip-row" id="sheet-toggle">
+        <span class="sheet__grip"></span>
+      </div>
+      <!-- 항상 보이는 요약 정보 + 버튼 -->
+      <div class="sheet__peek">
+        <div class="sheet__info">
+          <h2 class="sheet__title">근처 맛집</h2>
+          <span class="sheet__count" id="restaurant-count">검색 중...</span>
         </div>
         <button id="btn-recommend" class="btn-recommend">🤔 뭐먹지?</button>
       </div>
+      <!-- 스크롤 맛집 목록 -->
       <ul class="restaurant-list" id="restaurant-list">
         <li class="list-empty">
           <div class="spinner"></div>
           <p>주변 맛집을 검색하고 있어요...</p>
         </li>
       </ul>
-    </aside>
+    </div>
   </main>
 
   <!-- 추천 결과 모달 -->
